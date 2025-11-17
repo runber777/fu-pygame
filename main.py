@@ -9,11 +9,11 @@ pygame.display.set_caption("BlackJack")
 running = True
 while running:
 
-    screen.fill((45, 171, 43))
+    screen.fill((140, 200, 130))
     pygame.display.update()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
-# bobo
+# bubu
