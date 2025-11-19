@@ -51,7 +51,9 @@ class Player:
             aces -= 1
         return score
 class Dealer(Player):
-    pass
+    def should_hit(self):
+        return self.get_score() < 17
+
 
 
 deck = Deck()
@@ -65,3 +67,6 @@ player.add_card(deck.deal_card())
 
 print(player.hand)
 print(player.get_score())
+
+while dealer.should_hit():
+    dealer.add_card(deck.deal_card())
