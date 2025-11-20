@@ -38,13 +38,26 @@ back_rect = back.get_rect(topleft=(1000, 200))
 
 f1 = pg.font.Font(None, 30)
 f2 = pg.font.Font(None, 72)
+f3 = pg.font.Font(None, 30)
+f4 = pg.font.Font(None, 30)
 text = f1.render('Конец хода', True, (222,111,160), (143,190,143))
 text_rect = text.get_rect(topleft=(1015, 150))
 
 def draw_message(screen, message):
-    text_surf2 = f2.render(message, True, (255, 0, 0))  # красный цвет
+    text_surf2 = f2.render(message, True, (222,111,160))
     text_rect2 = text_surf2.get_rect(center=(600, 300))
     screen.blit(text_surf2, text_rect2)
+
+def player_score(screen, message):
+    text_surf3 = f3.render(message, True, (222,111,160))
+    text_rect3 = text_surf3.get_rect(topleft=(1015, 450))
+    screen.blit(text_surf3, text_rect3)
+
+def dealer_score(screen, message):
+    text_surf4 = f4.render(message, True, (222,111,160))
+    text_rect4 = text_surf4.get_rect(topleft=(1015, 50))
+    screen.blit(text_surf4, text_rect4)
+
 
 deck = Deck()
 player = Player()
@@ -52,6 +65,8 @@ dealer = Dealer()
 
 game_over = False
 message = ""
+message_score1 = "Ваши очки: 0"
+message_score2 = "Очки диллера: 0"
 running = True
 while running:
     screen.fill((140, 200, 130))
@@ -63,6 +78,8 @@ while running:
 
     for card_obj, x, y in player.hand:
         screen.blit(card_obj.image, (x, y))
+    player_score(screen, message_score1)
+    dealer_score(screen, message_score2)
     if message:
         draw_message(screen, message)
     pg.display.update()
@@ -76,12 +93,14 @@ while running:
                 pos = pg.mouse.get_pos()
                 if back_rect.collidepoint(pos):
                     player.add_card(deck.deal_card())
+                    message_score1 = f'Ваши очки: {str(player.get_score())}'
                     if player.get_score() > 21:
                         message = "ВЫ ПРОИГРАЛИ"
                         game_over = True
                 elif text_rect.collidepoint(pos):
                     while dealer.should_hit():
                         dealer.add_card(deck.deal_card(), y=10)
+                        message_score2 = f'Очки диллера: {str(dealer.get_score())}'
                         if dealer.get_score() >= player.get_score():
                             break
                     if player.get_score() > dealer.get_score():
@@ -93,7 +112,3 @@ while running:
                     game_over = True
 
 pg.quit()
-
-
-print(player.hand)
-print(player.get_score())

@@ -24,7 +24,6 @@ class Card:
         self.value = value
         self.suit = suit
         self.image = pg.image.load(f'karti/karti/{suit}{value}.png')
-        # Scale the image if needed to match your back card size
         self.image = pg.transform.scale(self.image, (150, 200))
     def __repr__(self):
         return f"{self.suit}{self.value}"
@@ -32,11 +31,9 @@ class Card:
 class Player:
     def __init__(self):
         self.hand = []
-        self.positions = []
 
     def add_card(self, card, y=410):
         self.hand.append((card, 20 + (len(self.hand)) * 130, y))
-        #self.positions.append((20 + (len(self.hand)) * 130, 10))
 
     def get_score(self):
         score = 0
